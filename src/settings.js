@@ -90,9 +90,17 @@ export const settings = {
             url: "https://www.facebook.com/share/1Znvo2bWQA/",
             icon: "fa-brands fa-facebook",
             tag: "Social"
+        },
+        { 
+            id: 8, 
+            title: "Discord Server", 
+            subtitle: "dans hub",
+            url: "https://dsc.gg/dans",
+            icon: "fa-brands fa-discord",
+            tag: "Community"
         }
     ],
-    // DAFTAR PROYEK DI BAWAH TAUTAN FACEBOOK
+    // DAFTAR PROYEK DI BAWAH TAUTAN DISCORD & PEMISAH PROJECT
     projects: [
         {
             id: 101,
@@ -109,6 +117,30 @@ export const settings = {
             url: "https://dansdep.vercel.app",
             icon: "fa-solid fa-globe",
             tag: "Tool"
+        },
+        {
+            id: 103,
+            title: "dansnime",
+            subtitle: "nonton anime & download gratis no iklan",
+            url: "https://dansnime.vercel.app",
+            icon: "fa-solid fa-globe",
+            tag: "Anime"
+        },
+        {
+            id: 104,
+            title: "dansmusic",
+            subtitle: "bosen sama, hai nama gw afgan? pake aja ini. bisa web to app",
+            url: "https://dansmusic.vercel.app",
+            icon: "fa-solid fa-globe",
+            tag: "Music App"
+        },
+        {
+            id: 105,
+            title: "server panel",
+            subtitle: "kontol server panel elainacloud.my.id",
+            url: "https://server-adamnurs.vercel.app",
+            icon: "fa-solid fa-globe",
+            tag: "Server Panel"
         }
     ]
 };

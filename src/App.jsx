@@ -14,23 +14,30 @@ import SociaBuzzIcon from './components/SociaBuzzIcon.jsx';
 import MusicPlayer from './MusicPlayer.jsx';
 import './style.css';
 
+// AUDIO KONTEKS TUNGGAL UNTUK MENCEGAH STUCK / MEMORY LEAK PADA EVENT KLIK
+let sharedHapticAudioCtx = null;
 const playClickHaptic = (enabled) => {
     if (!enabled || typeof window === 'undefined') return;
     try {
-        const AudioContext = window.AudioContext || window.webkitAudioContext;
-        if (!AudioContext) return;
-        const ctx = new AudioContext();
-        const osc = ctx.createOscillator();
-        const gain = ctx.createGain();
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        if (!AudioCtx) return;
+        if (!sharedHapticAudioCtx || sharedHapticAudioCtx.state === 'closed') {
+            sharedHapticAudioCtx = new AudioCtx();
+        }
+        if (sharedHapticAudioCtx.state === 'suspended') {
+            sharedHapticAudioCtx.resume().catch(() => {});
+        }
+        const osc = sharedHapticAudioCtx.createOscillator();
+        const gain = sharedHapticAudioCtx.createGain();
         osc.type = 'sine';
-        osc.frequency.setValueAtTime(540, ctx.currentTime);
-        osc.frequency.exponentialRampToValueAtTime(140, ctx.currentTime + 0.03);
-        gain.gain.setValueAtTime(0.04, ctx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.03);
+        osc.frequency.setValueAtTime(540, sharedHapticAudioCtx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(140, sharedHapticAudioCtx.currentTime + 0.03);
+        gain.gain.setValueAtTime(0.04, sharedHapticAudioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, sharedHapticAudioCtx.currentTime + 0.03);
         osc.connect(gain);
-        gain.connect(ctx.destination);
+        gain.connect(sharedHapticAudioCtx.destination);
         osc.start();
-        osc.stop(ctx.currentTime + 0.03);
+        osc.stop(sharedHapticAudioCtx.currentTime + 0.03);
     } catch (e) {}
 };
 

@@ -498,7 +498,7 @@ body {
     text-overflow: ellipsis;
 }
 
-/* SYMMETRICAL ACTION BUTTONS */
+/* TOMBOL AKSI SIMETRIS & PRESISI TANPA IKON TAMBAHAN */
 .wa-actions-row {
     display: grid;
     grid-template-columns: 1fr auto;
@@ -511,17 +511,20 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
+    gap: 9px;
     background: var(--main-action-bg);
     color: var(--dark-contrast-text);
     font-size: 12px;
     font-weight: 800;
     text-transform: uppercase;
     letter-spacing: 0.08em;
-    padding: 0 16px;
+    padding: 0 18px;
     text-decoration: none;
-    transition: all 0.2s ease;
+    transition: background 0.15s ease, transform 0.08s ease;
     cursor: pointer;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
 }
 
 .wa-join-btn:hover {
@@ -529,17 +532,21 @@ body {
     color: var(--dark-contrast-text);
 }
 
-.wa-btn-icon {
-    font-size: 14px;
+.wa-join-btn:active {
+    transform: scale(0.985);
 }
 
-.wa-external-icon {
-    opacity: 0.9;
+.wa-btn-icon {
+    font-size: 16px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
 }
 
 .wa-copy-btn {
     height: 44px;
-    min-width: 110px;
+    min-width: 108px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -553,14 +560,21 @@ body {
     letter-spacing: 0.08em;
     padding: 0 14px;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease, transform 0.08s ease;
     white-space: nowrap;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
 }
 
 .wa-copy-btn:hover {
-    background: var(--hover-surface);
+    background: #111A2E;
     border-color: var(--primary-cyan);
-    color: var(--primary-cyan);
+    color: var(--text-primary);
+}
+
+.wa-copy-btn:active {
+    transform: scale(0.985);
 }
 
 /* ==========================================================================
@@ -588,9 +602,12 @@ body {
     padding: 0 14px;
     text-decoration: none;
     color: var(--text-primary);
-    transition: all 0.2s ease;
+    transition: background 0.15s ease, border-color 0.15s ease, transform 0.08s ease, box-shadow 0.15s ease;
     cursor: pointer;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
 }
 
 .linktree-btn:hover {
@@ -599,6 +616,10 @@ body {
     transform: translateY(-2px);
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6),
                 0 0 12px rgba(0, 184, 219, 0.15);
+}
+
+.linktree-btn:active {
+    transform: translateY(0) scale(0.99);
 }
 
 .linktree-btn:hover .linktree-title {

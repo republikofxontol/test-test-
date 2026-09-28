@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
     Users, 
-    ExternalLink, 
     Copy, 
     Check, 
     CheckCircle2, 
@@ -10,23 +9,30 @@ import {
     Radio
 } from 'lucide-react';
 
+// AUDIO KONTEKS TUNGGAL UNTUK MENCEGAH STUCK / MEMORY LEAK SAAT DIKLIK
+let sharedAudioCtx = null;
 const playClickHaptic = (enabled) => {
     if (!enabled || typeof window === 'undefined') return;
     try {
-        const AudioContext = window.AudioContext || window.webkitAudioContext;
-        if (!AudioContext) return;
-        const ctx = new AudioContext();
-        const osc = ctx.createOscillator();
-        const gain = ctx.createGain();
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        if (!AudioCtx) return;
+        if (!sharedAudioCtx || sharedAudioCtx.state === 'closed') {
+            sharedAudioCtx = new AudioCtx();
+        }
+        if (sharedAudioCtx.state === 'suspended') {
+            sharedAudioCtx.resume().catch(() => {});
+        }
+        const osc = sharedAudioCtx.createOscillator();
+        const gain = sharedAudioCtx.createGain();
         osc.type = 'sine';
-        osc.frequency.setValueAtTime(560, ctx.currentTime);
-        osc.frequency.exponentialRampToValueAtTime(140, ctx.currentTime + 0.03);
-        gain.gain.setValueAtTime(0.04, ctx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.03);
+        osc.frequency.setValueAtTime(560, sharedAudioCtx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(140, sharedAudioCtx.currentTime + 0.03);
+        gain.gain.setValueAtTime(0.04, sharedAudioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, sharedAudioCtx.currentTime + 0.03);
         osc.connect(gain);
-        gain.connect(ctx.destination);
+        gain.connect(sharedAudioCtx.destination);
         osc.start();
-        osc.stop(ctx.currentTime + 0.03);
+        osc.stop(sharedAudioCtx.currentTime + 0.03);
     } catch (e) {}
 };
 
@@ -185,7 +191,6 @@ const WhatsAppChannelCard = ({
                         >
                             <i className="fa-brands fa-whatsapp wa-btn-icon"></i>
                             <span>{activeTab === 'channel' ? 'Buka Saluran' : 'Gabung Grup'}</span>
-                            <ExternalLink size={14} className="wa-external-icon" />
                         </a>
 
                         <button 
