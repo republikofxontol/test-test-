@@ -768,24 +768,29 @@ body {
     min-width: 36px;
     min-height: 36px;
     flex-shrink: 0;
-    background: #0B101B;
-    border: 1px solid var(--border-default);
+    background: transparent;
+    border: none;
     overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
+    cursor: pointer;
 }
 
 .ios-capsule-cover {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
     display: block;
-    transition: transform 0.3s ease;
+    transition: transform 0.2s ease;
 }
 
 .ios-capsule-cover.playing {
-    transform: scale(1.05);
+    transform: none;
+}
+
+.ios-capsule-cover:hover {
+    transform: scale(1.06);
 }
 
 .ios-capsule-fallback {
@@ -883,4 +888,99 @@ body {
 .ios-capsule-play-btn svg {
     display: block;
     margin: 0 auto;
+}
+
+/* ==========================================================================
+   MODAL PRATINJAU COVER LENGKAP KETIKA DIKLIK
+   ========================================================================== */
+.cover-lightbox-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: rgba(4, 7, 13, 0.88);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.cover-lightbox-card {
+    background: #0B101B;
+    border: 1px solid var(--border-default);
+    box-shadow: 0 20px 48px rgba(0, 0, 0, 0.85);
+    max-width: 380px;
+    width: 100%;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.cover-lightbox-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.cover-lightbox-meta {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.cover-lightbox-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.cover-lightbox-artist {
+    font-size: 11px;
+    color: var(--primary-cyan);
+    letter-spacing: 0.03em;
+}
+
+.cover-lightbox-close {
+    width: 32px;
+    height: 32px;
+    background: #111827;
+    border: 1px solid var(--border-default);
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.cover-lightbox-close:hover {
+    color: #FFF;
+    border-color: var(--primary-cyan);
+    background: #1A2333;
+}
+
+.cover-lightbox-img-box {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    background: #04070D;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.cover-lightbox-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
 }

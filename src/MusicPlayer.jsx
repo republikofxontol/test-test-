@@ -3,7 +3,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { 
     Play, 
     Pause, 
-    Music2
+    Music2,
+    X
 } from 'lucide-react';
 import { settings } from './settings.js';
 
@@ -17,6 +18,7 @@ const MusicPlayer = ({ soundEnabled = true }) => {
     const audioRef = useRef(null);
     const [isPlaying, setIsPlaying] = useState(false);
     const [coverError, setCoverError] = useState(false);
+    const [showCoverModal, setShowCoverModal] = useState(false);
 
     // AUTOPLAY AUDIO DAN SIKLUS HIDUP PLAYBACK (PAS MASUK WEB AUTOPLAY LANGSUNG NYALA DAN BERSUARA)
     useEffect(() => {
@@ -105,6 +107,13 @@ const MusicPlayer = ({ soundEnabled = true }) => {
         }
     };
 
+    // TAMPILKAN PRATINJAU COVER LENGKAP KETIKA COVER DIKLIK (TANPA MENGGANGGU PLAY/PAUSE)
+    const handleCoverClick = (e) => {
+        e?.stopPropagation?.();
+        triggerHaptic();
+        setShowCoverModal(true);
+    };
+
     return (
         <>
             {/* ELEMEN AUDIO HTML5 ASLI */}
@@ -119,7 +128,7 @@ const MusicPlayer = ({ soundEnabled = true }) => {
                 }}
             />
 
-            {/* DOCK KAPSUL CYBER INDUSTRIAL (PUTAR/JEDA LANGSUNG - TANPA POPUP) */}
+            {/* DOCK KAPSUL CYBER INDUSTRIAL */}
             <div 
                 className="ios-pill-dock"
                 id="ios-pill-dock"
@@ -132,13 +141,20 @@ const MusicPlayer = ({ soundEnabled = true }) => {
                     tabIndex={0}
                     aria-label={isPlaying ? "Jeda Audio" : "Putar Audio"}
                 >
-                    {/* KIRI: SAMPUL ALBUM MUSIK */}
-                    <div className="ios-capsule-art">
+                    {/* KIRI: SAMPUL ALBUM MUSIK (BORDER CONTAINER DIHAPUS, KLIK UNTUK MELIHAT FULL COVER BESERTA BORDER PUTIH GAMBAR) */}
+                    <div 
+                        className="ios-capsule-art"
+                        onClick={handleCoverClick}
+                        title="Klik untuk melihat sampul album penuh"
+                        role="button"
+                        tabIndex={0}
+                        aria-label="Lihat sampul album penuh"
+                    >
                         {!coverError ? (
                             <img 
                                 src={settings.music.cover} 
                                 alt={settings.music.title} 
-                                className={`ios-capsule-cover ${isPlaying ? 'playing' : ''}`}
+                                className="ios-capsule-cover"
                                 onError={() => setCoverError(true)}
                             />
                         ) : (
@@ -183,6 +199,51 @@ const MusicPlayer = ({ soundEnabled = true }) => {
                     </button>
                 </div>
             </div>
+
+            {/* MODAL PRATINJAU COVER PENUH KETIKA COVER DIKLIK */}
+            <AnimatePresence>
+                {showCoverModal && (
+                    <motion.div 
+                        className="cover-lightbox-backdrop"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        onClick={() => setShowCoverModal(false)}
+                    >
+                        <motion.div 
+                            className="cover-lightbox-card"
+                            initial={{ scale: 0.92, opacity: 0, y: 12 }}
+                            animate={{ scale: 1, opacity: 1, y: 0 }}
+                            exit={{ scale: 0.92, opacity: 0, y: 12 }}
+                            transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+                            onClick={(e) => e.stopPropagation()}
+                        >
+                            <div className="cover-lightbox-header">
+                                <div className="cover-lightbox-meta">
+                                    <span className="cover-lightbox-title">{settings.music.title}</span>
+                                    <span className="cover-lightbox-artist">{settings.music.artist}</span>
+                                </div>
+                                <button 
+                                    className="cover-lightbox-close"
+                                    onClick={() => setShowCoverModal(false)}
+                                    title="Tutup Pratinjau Sampul"
+                                    aria-label="Tutup pratinjau sampul"
+                                >
+                                    <X size={16} />
+                                </button>
+                            </div>
+
+                            <div className="cover-lightbox-img-box">
+                                <img 
+                                    src={settings.music.cover} 
+                                    alt={settings.music.title} 
+                                    className="cover-lightbox-img" 
+                                />
+                            </div>
+                        </motion.div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </>
     );
 };
