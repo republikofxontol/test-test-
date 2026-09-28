@@ -54,8 +54,8 @@ const linkVariants = {
 };
 
 const App = () => {
-    // DEFAULT SOUND FALSE: AUTOPLAY DIMULAI DALAM MODE AUTO SILENT TANPA MEMPAUSE LAGU
-    const [soundEnabled, setSoundEnabled] = useState(false);
+    // DEFAULT SOUND TRUE: PAS MASUK WEB AUTOPLAY LANGSUNG NYALA DAN BERSUARA
+    const [soundEnabled, setSoundEnabled] = useState(true);
     const [currentTime, setCurrentTime] = useState(() => {
         return new Date().toLocaleTimeString('id-ID', {
             hour: '2-digit',
@@ -106,14 +106,14 @@ const App = () => {
                 </div>
 
                 <div className="hud-actions-group">
-                    {/* TOMBOL TOGGLE SUARA: KETIKA AUTOPLAY MENYALA BERFUNGSI SEBAGAI AUTO SILENT TANPA MEMPAUSE LAGU */}
+                    {/* TOMBOL TOGGLE SUARA: MENGATUR MODE SUARA/HENING TANPA MEMPAUSE LAGU */}
                     <button 
                         className={`hud-circle-btn ${!soundEnabled ? 'is-muted' : ''}`}
                         onClick={() => {
                             setSoundEnabled(prev => !prev);
                         }}
                         title={soundEnabled ? "Audio Aktif (Klik untuk Mode Hening)" : "Audio Hening (Klik untuk Mengaktifkan Suara)"}
-                        aria-label={soundEnabled ? "Nonaktifkan suara (Auto Silent)" : "Aktifkan suara"}
+                        aria-label={soundEnabled ? "Nonaktifkan suara" : "Aktifkan suara"}
                     >
                         {soundEnabled ? <Volume2 size={16} /> : <VolumeX size={16} />}
                     </button>

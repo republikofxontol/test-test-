@@ -13,27 +13,28 @@ const triggerHaptic = () => {
     }
 };
 
-const MusicPlayer = ({ soundEnabled = false }) => {
+const MusicPlayer = ({ soundEnabled = true }) => {
     const audioRef = useRef(null);
     const [isPlaying, setIsPlaying] = useState(false);
     const [coverError, setCoverError] = useState(false);
 
-    // AUTOPLAY AUDIO DAN SIKLUS HIDUP PLAYBACK (AUTO SILENT KETIKA AUTOPLAY DIAKTIFKAN TANPA MEMPAUSE LAGU)
+    // AUTOPLAY AUDIO DAN SIKLUS HIDUP PLAYBACK (PAS MASUK WEB AUTOPLAY LANGSUNG NYALA DAN BERSUARA)
     useEffect(() => {
         const audio = audioRef.current;
         if (!audio) return;
 
         audio.volume = 0.65;
         audio.loop = true;
-        // KETIKA AUTOPLAY NYALA: ATUR MENJADI AUTO SILENT (MUTED) SECARA DEFAULT SEHINGGA BROWSER TIDAK MEMBLOKIR DAN LAGU TETAP BERJALAN
         audio.muted = !soundEnabled;
 
+        // FUNGSI UNTUK MEMUTAR AUDIO BERSUARA SECARA OTOMATIS
         const attemptPlay = async () => {
             try {
+                audio.muted = !soundEnabled;
                 await audio.play();
                 setIsPlaying(true);
             } catch (err) {
-                // JIKA BROWSER MEMERLUKAN MUTED UNTUK AUTOPLAY, PASTIKAN MUTED DAN PUTAR LANGSUNG
+                // JIKA KEBIJAKAN BROWSER MEMERLUKAN INTERAKSI UNTUK SUARA, PUTAR LANGSUNG DAN BUKA SUARA SAAT SENTUHAN PERTAMA
                 try {
                     audio.muted = true;
                     await audio.play();
@@ -46,27 +47,38 @@ const MusicPlayer = ({ soundEnabled = false }) => {
 
         attemptPlay();
 
-        // PEMULIHAN INTERAKSI PERTAMA PENGGUNA JIKA AUTOPLAY AWAL TERHALANG
+        // AKTIFKAN SUARA OTOMATIS BEGITU PENGGUNA BERINTERAKSI PERTAMA KALI DENGAN HALAMAN
         const handleUnlock = () => {
-            if (audio.paused) {
-                audio.play()
-                    .then(() => setIsPlaying(true))
-                    .catch(() => {});
+            if (audio) {
+                if (soundEnabled) {
+                    audio.muted = false;
+                }
+                if (audio.paused) {
+                    audio.play()
+                        .then(() => setIsPlaying(true))
+                        .catch(() => {});
+                }
             }
             window.removeEventListener('pointerdown', handleUnlock);
+            window.removeEventListener('touchstart', handleUnlock);
             window.removeEventListener('keydown', handleUnlock);
+            window.removeEventListener('click', handleUnlock);
         };
 
         window.addEventListener('pointerdown', handleUnlock, { once: true });
+        window.addEventListener('touchstart', handleUnlock, { once: true });
         window.addEventListener('keydown', handleUnlock, { once: true });
+        window.addEventListener('click', handleUnlock, { once: true });
 
         return () => {
             window.removeEventListener('pointerdown', handleUnlock);
+            window.removeEventListener('touchstart', handleUnlock);
             window.removeEventListener('keydown', handleUnlock);
+            window.removeEventListener('click', handleUnlock);
         };
     }, []);
 
-    // SINKRONISASI STATUS SUARA (AUTO SILENT / AKTIF) TANPA MEMPAUSE ATAU MENGULANG LAGU
+    // SINKRONISASI STATUS SUARA (AKTIF / SILENT) TANPA MEMPAUSE ATAU MENGULANG LAGU
     useEffect(() => {
         const audio = audioRef.current;
         if (!audio) return;
