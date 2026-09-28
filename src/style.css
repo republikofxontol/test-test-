@@ -1,17 +1,17 @@
 /* ==========================================================================
-   SIMPLE LINKTREE NOIR // ADAM NUR SETYAWAN (@adamnurs_)
-   Architecture: Zero Border Radius, High Contrast, Absolute Symmetry & Centering
-   No Modal Pop-ups, Zero Clutter
+   SIMPLE LINKTREE NOIR // ADAM NUR SETYAWAN (@ADAMNURS_)
+   ARCHITECTURE: ZERO BORDER RADIUS, HIGH CONTRAST, ABSOLUTE SYMMETRY & CENTERING
+   NO MODAL POP-UPS, ZERO CLUTTER
    ========================================================================== */
 
 :root {
-    /* Tipografi Monospace */
+    /* TIPOGRAFI MONOSPACE */
     --font-mono: 'JetBrains Mono', SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
     --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
     --font-main: var(--font-mono);
     --font-heading: var(--font-mono);
 
-    /* Background & Surfaces */
+    /* BACKGROUND & SURFACES */
     --canvas-bg: #0B101B;
     --surface-card: #111928;
     --surface-card-glass: rgba(17, 25, 40, 0.90);
@@ -19,19 +19,19 @@
     --border-default: #1D293D;
     --border-active: #00B8DB;
 
-    /* Aksen & Aksi */
+    /* AKSEN & AKSI */
     --primary-cyan: #00B8DB;
     --primary-cyan-hover: #00D0F5;
     --main-action-bg: #008B9E;
     --main-action-hover: #009CB0;
     --dark-contrast-text: #020618;
 
-    /* Tipografi Teks */
+    /* TIPOGRAFI TEKS */
     --text-primary: #F1F5F9;
     --text-muted: #CAD5E2;
     --text-subdued: #64748B;
 
-    /* Status & Feedback */
+    /* STATUS & FEEDBACK */
     --status-success-bg: rgba(16, 185, 129, 0.1);
     --status-success-border: rgba(16, 185, 129, 0.3);
     --status-success-text: #34D399;
@@ -39,11 +39,11 @@
     --status-error-border: #9F1239;
     --status-error-text: #FDA4AF;
 
-    /* Symmetrical Guide Rail Width */
+    /* SYMMETRICAL GUIDE RAIL WIDTH */
     --content-max-width: 540px;
 }
 
-/* Zero Border Radius Discipline on Everything */
+/* ZERO BORDER RADIUS DISCIPLINE ON EVERYTHING */
 * {
     margin: 0;
     padding: 0;
@@ -63,7 +63,7 @@ body {
     user-select: none;
 }
 
-/* Background Video */
+/* BACKGROUND VIDEO */
 #bg-video {
     position: fixed;
     top: 50%;
@@ -79,7 +79,7 @@ body {
     pointer-events: none;
 }
 
-/* Subtle Cyber-Noir Grid Overlay */
+/* SUBTLE CYBER-NOIR GRID OVERLAY */
 .cyber-grid-overlay {
     position: fixed;
     inset: 0;
@@ -91,7 +91,7 @@ body {
     pointer-events: none;
 }
 
-/* App Wrapper: Centered Flex Container */
+/* APP WRAPPER: CENTERED FLEX CONTAINER */
 .app-wrapper {
     min-height: 100vh;
     width: 100%;
@@ -104,7 +104,7 @@ body {
     z-index: 1;
 }
 
-/* Top HUD Bar */
+/* TOP HUD BAR */
 .top-hud-bar {
     width: 100%;
     max-width: var(--content-max-width);
@@ -173,7 +173,7 @@ body {
     color: var(--primary-cyan);
 }
 
-/* Main Content Area */
+/* MAIN CONTENT AREA */
 .main-content-area {
     width: 100%;
     max-width: var(--content-max-width);
@@ -189,7 +189,7 @@ body {
     align-items: center;
 }
 
-/* Profile Hero */
+/* PROFILE HERO */
 .profile-hero {
     display: flex;
     flex-direction: column;
@@ -308,7 +308,7 @@ body {
 }
 
 /* ==========================================================================
-   WhatsApp Featured Card (No Live Text, Symmetrical & Precise)
+   WHATSAPP FEATURED CARD (NO LIVE TEXT, SYMMETRICAL & PRECISE)
    ========================================================================== */
 .wa-channel-card {
     width: 100%;
@@ -498,7 +498,7 @@ body {
     text-overflow: ellipsis;
 }
 
-/* Symmetrical Action Buttons */
+/* SYMMETRICAL ACTION BUTTONS */
 .wa-actions-row {
     display: grid;
     grid-template-columns: 1fr auto;
@@ -564,7 +564,7 @@ body {
 }
 
 /* ==========================================================================
-   Clean & Symmetrical Linktree Buttons
+   CLEAN & SYMMETRICAL LINKTREE BUTTONS
    ========================================================================== */
 .simple-links-list {
     width: 100%;
@@ -719,7 +719,7 @@ body {
 }
 
 /* ==========================================================================
-   BOTTOM AUDIO CAPSULE (No Pop-ups)
+   BOTTOM AUDIO CAPSULE (NO POP-UPS)
    ========================================================================== */
 .ios-pill-dock {
     position: fixed;
@@ -760,7 +760,7 @@ body {
     background: #0E1524;
 }
 
-/* Left: Exactly 36×36px Artwork Frame */
+/* LEFT: EXACTLY 36×36PX ARTWORK FRAME */
 .ios-capsule-art {
     position: relative;
     width: 36px;
@@ -797,7 +797,7 @@ body {
     justify-content: center;
 }
 
-/* Center: Typography Centered Vertically */
+/* CENTER: TYPOGRAPHY CENTERED VERTICALLY */
 .ios-capsule-meta {
     flex: 1;
     min-width: 0;
@@ -831,7 +831,7 @@ body {
     text-overflow: ellipsis;
 }
 
-/* Right: Soundwave Graphic + Exactly 36×36px Play Button */
+/* RIGHT: SOUNDWAVE GRAPHIC + EXACTLY 36×36PX PLAY BUTTON */
 .ios-capsule-soundwave {
     display: flex;
     align-items: center;

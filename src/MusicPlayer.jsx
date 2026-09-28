@@ -13,31 +13,40 @@ const triggerHaptic = () => {
     }
 };
 
-const MusicPlayer = ({ soundEnabled = true }) => {
+const MusicPlayer = ({ soundEnabled = false }) => {
     const audioRef = useRef(null);
     const [isPlaying, setIsPlaying] = useState(false);
     const [coverError, setCoverError] = useState(false);
 
-    // Audio Autoplay & Lifecycle
+    // AUTOPLAY AUDIO DAN SIKLUS HIDUP PLAYBACK (AUTO SILENT KETIKA AUTOPLAY DIAKTIFKAN TANPA MEMPAUSE LAGU)
     useEffect(() => {
         const audio = audioRef.current;
         if (!audio) return;
 
         audio.volume = 0.65;
         audio.loop = true;
+        // KETIKA AUTOPLAY NYALA: ATUR MENJADI AUTO SILENT (MUTED) SECARA DEFAULT SEHINGGA BROWSER TIDAK MEMBLOKIR DAN LAGU TETAP BERJALAN
+        audio.muted = !soundEnabled;
 
         const attemptPlay = async () => {
             try {
                 await audio.play();
                 setIsPlaying(true);
             } catch (err) {
-                setIsPlaying(false);
+                // JIKA BROWSER MEMERLUKAN MUTED UNTUK AUTOPLAY, PASTIKAN MUTED DAN PUTAR LANGSUNG
+                try {
+                    audio.muted = true;
+                    await audio.play();
+                    setIsPlaying(true);
+                } catch (e) {
+                    setIsPlaying(false);
+                }
             }
         };
 
         attemptPlay();
 
-        // Autoplay unlock on first user interaction if blocked
+        // PEMULIHAN INTERAKSI PERTAMA PENGGUNA JIKA AUTOPLAY AWAL TERHALANG
         const handleUnlock = () => {
             if (audio.paused) {
                 audio.play()
@@ -56,6 +65,13 @@ const MusicPlayer = ({ soundEnabled = true }) => {
             window.removeEventListener('keydown', handleUnlock);
         };
     }, []);
+
+    // SINKRONISASI STATUS SUARA (AUTO SILENT / AKTIF) TANPA MEMPAUSE ATAU MENGULANG LAGU
+    useEffect(() => {
+        const audio = audioRef.current;
+        if (!audio) return;
+        audio.muted = !soundEnabled;
+    }, [soundEnabled]);
 
     const togglePlay = (e) => {
         e?.stopPropagation?.();
@@ -79,7 +95,7 @@ const MusicPlayer = ({ soundEnabled = true }) => {
 
     return (
         <>
-            {/* Native HTML5 Audio Element */}
+            {/* ELEMEN AUDIO HTML5 ASLI */}
             <audio
                 ref={audioRef}
                 src={settings.music.audio}
@@ -91,7 +107,7 @@ const MusicPlayer = ({ soundEnabled = true }) => {
                 }}
             />
 
-            {/* Industrial Cyber Capsule Dock (Direct Play/Pause - Zero Popups) */}
+            {/* DOCK KAPSUL CYBER INDUSTRIAL (PUTAR/JEDA LANGSUNG - TANPA POPUP) */}
             <div 
                 className="ios-pill-dock"
                 id="ios-pill-dock"
@@ -104,7 +120,7 @@ const MusicPlayer = ({ soundEnabled = true }) => {
                     tabIndex={0}
                     aria-label={isPlaying ? "Jeda Audio" : "Putar Audio"}
                 >
-                    {/* Left: Album artwork */}
+                    {/* KIRI: SAMPUL ALBUM MUSIK */}
                     <div className="ios-capsule-art">
                         {!coverError ? (
                             <img 
@@ -120,13 +136,13 @@ const MusicPlayer = ({ soundEnabled = true }) => {
                         )}
                     </div>
 
-                    {/* Center: Track title & Artist */}
+                    {/* TENGAH: JUDUL LAGU & NAMA ARTIS */}
                     <div className="ios-capsule-meta">
                         <span className="ios-capsule-title">{settings.music.title}</span>
                         <span className="ios-capsule-artist">{settings.music.artist}</span>
                     </div>
 
-                    {/* Right: Soundwave Visualizer */}
+                    {/* KANAN: VISUALISASI GELOMBANG SUARA ANIMATIF */}
                     <div className="ios-capsule-soundwave" aria-hidden="true">
                         {[35, 80, 55, 95, 45].map((barHeight, idx) => (
                             <span 
@@ -140,7 +156,7 @@ const MusicPlayer = ({ soundEnabled = true }) => {
                         ))}
                     </div>
 
-                    {/* Quick Play/Pause button */}
+                    {/* TOMBOL PINTAS PUTAR / JEDA */}
                     <button 
                         className="ios-capsule-play-btn"
                         onClick={togglePlay}

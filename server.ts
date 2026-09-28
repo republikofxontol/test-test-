@@ -118,18 +118,20 @@ function parseWhatsAppResource(html: string, url: string) {
   };
 }
 
-const cache: Record<string, { data: any; timestamp: number }> = {};
 const CACHE_TTL_MS = 60 * 1000;
+
+const cache: Record<string, { data: any; timestamp: number }> = {};
 
 app.get(['/api/whatsapp-channel', '/api/whatsapp-info'], async (req, res) => {
   const rawUrl = (req.query.url as string) || 'https://whatsapp.com/channel/0029VbCz8aUHAdNOPaBL1P3j';
   const targetUrl = normalizeUrl(rawUrl);
 
-  if (cache[targetUrl] && (Date.now() - cache[targetUrl].timestamp < CACHE_TTL_MS)) {
+  const existingCache = cache[targetUrl];
+  if (existingCache && (Date.now() - existingCache.timestamp < CACHE_TTL_MS)) {
     return res.json({
       success: true,
       cached: true,
-      ...cache[targetUrl].data
+      ...existingCache.data
     });
   }
 
@@ -141,11 +143,11 @@ app.get(['/api/whatsapp-channel', '/api/whatsapp-info'], async (req, res) => {
     });
 
     if (response.status !== 200) {
-      if (cache[targetUrl]) {
+      if (existingCache) {
         return res.json({
           success: true,
           cached: true,
-          ...cache[targetUrl].data
+          ...existingCache.data
         });
       }
       return res.status(response.status).json({
@@ -173,11 +175,11 @@ app.get(['/api/whatsapp-channel', '/api/whatsapp-info'], async (req, res) => {
       ...result
     });
   } catch (err: any) {
-    if (cache[targetUrl]) {
+    if (existingCache) {
       return res.json({
         success: true,
         cached: true,
-        ...cache[targetUrl].data
+        ...existingCache.data
       });
     }
     return res.status(500).json({

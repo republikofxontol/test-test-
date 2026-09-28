@@ -3,7 +3,7 @@ export const settings = {
         siteUrl: "https://karinnchans.my.id",
         title: "Adam Nur Setyawan — Console Noir",
         description: "Official industrial cyber-terminal, verified links, and media player of Adam Nur Setyawan (@adamnurs_)",
-        favicon: "/favicon.ico"
+        favicon: null
     },
     profile: {
         username: "adamnurs_",
@@ -12,16 +12,16 @@ export const settings = {
         title: "Software & Creative Developer",
         bio: "industrial cyber-terminal noir • web engineering, automation & digital crafts.",
         avatar: "/avatar.jpg",
-        videoBg: "/bg-video.mp4",
+        videoBg: "/video.mp4",
         status: "ONLINE // AVAILABLE FOR PROJECTS",
         location: "Indonesia",
         stack: ["TypeScript", "React", "Node.js", "Express", "Tailwind CSS", "Cheerio"],
         whatsappChannel: "https://whatsapp.com/channel/0029VbCz8aUHAdNOPaBL1P3j",
-        whatsappGroup: "https://chat.whatsapp.com/IFVpqBdZIOGHvdcT1ngaiD?s=cl&p=a&mlu=4&ilr=4"
+        whatsappGroup: "https://chat.whatsapp.com/IFVpqBdZIOGHvdcT1ngaiD"
     },
     music: {
-        title: "Ntah",
-        artist: "mboh su",
+        title: "ourai",
+        artist: "mygo!!!!!",
         cover: "/cover.jpg",
         audio: "/lagu.mp3"
     },
@@ -38,33 +38,49 @@ export const settings = {
             id: 2, 
             title: "WhatsApp Group", 
             subtitle: "Homescreen — Komunitas Diskusi",
-            url: "https://chat.whatsapp.com/IFVpqBdZIOGHvdcT1ngaiD?s=cl&p=a&mlu=4&ilr=4",
+            url: "https://chat.whatsapp.com/IFVpqBdZIOGHvdcT1ngaiD",
             icon: "fa-brands fa-whatsapp",
             tag: "Grup"
         },
         { 
             id: 3, 
             title: "GitHub", 
-            subtitle: "github.com/adamnurs_",
-            url: "https://github.com/adamnurs_",
+            subtitle: "github.com/adamnursetyawan3",
+            url: "https://github.com/adamnursetyawan3",
             icon: "fa-brands fa-github",
             tag: "Repositories"
         },
         { 
             id: 4, 
             title: "Telegram", 
-            subtitle: "t.me/Nimzz4",
-            url: "https://t.me/Nimzz4",
+            subtitle: "t.me/dansmontelli",
+            url: "https://t.me/dansmontelli",
             icon: "fa-brands fa-telegram",
             tag: "Direct Chat"
         },
         { 
             id: 5, 
             title: "TikTok", 
-            subtitle: "@nimzz_bocil_pokemon",
-            url: "https://www.tiktok.com/@nimzz_bocil_pokemon",
+            subtitle: "@karinnchans_",
+            url: "https://www.tiktok.com/@karinnchans_?_r=1&_t=ZS-9A6XhqV0c77",
             icon: "fa-brands fa-tiktok",
             tag: "Media"
+        },
+        { 
+            id: 6, 
+            title: "Instagram", 
+            subtitle: "@adamnurs_",
+            url: "https://www.instagram.com/adamnurs_?stkn=bGtyNWw0eXppeHhx",
+            icon: "fa-brands fa-instagram",
+            tag: "Social"
+        },
+        { 
+            id: 7, 
+            title: "Facebook", 
+            subtitle: "Adam Nur Setyawan",
+            url: "https://www.facebook.com/share/1Znvo2bWQA/",
+            icon: "fa-brands fa-facebook",
+            tag: "Social"
         }
     ]
 };

@@ -4,9 +4,9 @@ import {
     Share2, 
     Volume2, 
     VolumeX, 
-    MapPin,
-    ArrowUpRight,
-    Clock
+    MapPin, 
+    ArrowUpRight, 
+    Clock 
 } from 'lucide-react';
 import { settings } from './settings.js';
 import WhatsAppChannelCard from './components/WhatsAppChannelCard.jsx';
@@ -54,7 +54,8 @@ const linkVariants = {
 };
 
 const App = () => {
-    const [soundEnabled, setSoundEnabled] = useState(true);
+    // DEFAULT SOUND FALSE: AUTOPLAY DIMULAI DALAM MODE AUTO SILENT TANPA MEMPAUSE LAGU
+    const [soundEnabled, setSoundEnabled] = useState(false);
     const [currentTime, setCurrentTime] = useState(() => {
         return new Date().toLocaleTimeString('id-ID', {
             hour: '2-digit',
@@ -89,15 +90,15 @@ const App = () => {
 
     return (
         <div className="app-wrapper">
-            {/* Video Background */}
+            {/* LATAR BELAKANG VIDEO */}
             <video autoPlay muted loop playsInline id="bg-video">
                 <source src={settings.profile.videoBg} type="video/mp4" />
             </video>
 
-            {/* Subtle Grid Overlay */}
+            {/* OVERLAY GRID CYBER INDUSTRI */}
             <div className="cyber-grid-overlay" />
 
-            {/* Top Simple Action Bar */}
+            {/* BAR TINDAKAN HUD ATAS */}
             <header className="top-hud-bar">
                 <div className="hud-clock-pill">
                     <Clock size={12} className="hud-clock-icon" />
@@ -105,13 +106,14 @@ const App = () => {
                 </div>
 
                 <div className="hud-actions-group">
+                    {/* TOMBOL TOGGLE SUARA: KETIKA AUTOPLAY MENYALA BERFUNGSI SEBAGAI AUTO SILENT TANPA MEMPAUSE LAGU */}
                     <button 
-                        className="hud-circle-btn" 
+                        className={`hud-circle-btn ${!soundEnabled ? 'is-muted' : ''}`}
                         onClick={() => {
-                            setSoundEnabled(!soundEnabled);
+                            setSoundEnabled(prev => !prev);
                         }}
-                        title="Toggle Sound"
-                        aria-label="Toggle sound"
+                        title={soundEnabled ? "Audio Aktif (Klik untuk Mode Hening)" : "Audio Hening (Klik untuk Mengaktifkan Suara)"}
+                        aria-label={soundEnabled ? "Nonaktifkan suara (Auto Silent)" : "Aktifkan suara"}
                     >
                         {soundEnabled ? <Volume2 size={16} /> : <VolumeX size={16} />}
                     </button>
@@ -127,10 +129,10 @@ const App = () => {
                 </div>
             </header>
 
-            {/* Main Content Area */}
+            {/* AREA KONTEN UTAMA */}
             <main className="main-content-area">
                 <div className="profile-container">
-                    {/* Profile Hero */}
+                    {/* HERO PROFIL */}
                     <div className="profile-hero">
                         <div className="avatar-frame-outer">
                             <span className="corner-bracket top-left" />
@@ -163,14 +165,14 @@ const App = () => {
                         </p>
                     </div>
 
-                    {/* WhatsApp Channel & Group Widget */}
+                    {/* WIDGET SALURAN & GRUP WHATSAPP */}
                     <WhatsAppChannelCard 
                         channelUrl={settings.profile.whatsappChannel || "https://whatsapp.com/channel/0029VbCz8aUHAdNOPaBL1P3j"}
                         groupUrl={settings.profile.whatsappGroup || "https://chat.whatsapp.com/IFVpqBdZIOGHvdcT1ngaiD"}
                         soundEnabled={soundEnabled}
                     />
 
-                    {/* Clean & Symmetrical Linktree Buttons */}
+                    {/* DAFTAR TAUTAN LINKTREE BERSIH & SIMETRIS */}
                     <motion.div 
                         className="simple-links-list"
                         variants={containerVariants}
@@ -204,7 +206,7 @@ const App = () => {
                     </motion.div>
                 </div>
 
-                {/* Symmetrical Centered Footer */}
+                {/* FOOTER KREDIT SIMETRIS DI TENGAH */}
                 <footer className="footer-credits">
                     <p className="footer-text">
                         © {new Date().getFullYear()} <strong>{settings.profile.name}</strong> • {settings.profile.handle}
@@ -215,7 +217,7 @@ const App = () => {
                 </footer>
             </main>
 
-            {/* Bottom Audio Player Capsule */}
+            {/* KAPSUL PEMUTAR MUSIK DI BAGIAN BAWAH */}
             <MusicPlayer soundEnabled={soundEnabled} />
         </div>
     );

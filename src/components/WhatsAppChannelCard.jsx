@@ -35,9 +35,21 @@ const WhatsAppChannelCard = ({
     groupUrl = "https://chat.whatsapp.com/IFVpqBdZIOGHvdcT1ngaiD",
     soundEnabled = true
 }) => {
-    const [activeTab, setActiveTab] = useState('channel'); // 'channel' | 'group'
+    // TAB AKTIF: 'channel' ATAU 'group'
+    const [activeTab, setActiveTab] = useState('channel');
     const [channelData, setChannelData] = useState(null);
-    const [groupData, setGroupData] = useState(null);
+    
+    // DATA GRUP SIAP LANGSUNG TAMPIL INSTAN KETIKA DIKLIK TANPA MENUNGGU FETCHING
+    const [groupData, setGroupData] = useState({
+        name: "Homescreen",
+        description: "Grup WhatsApp resmi untuk diskusi, sharing, dan komunikasi bersama.",
+        followers: "Komunitas Aktif",
+        channel_type: "Grup WhatsApp",
+        is_group: true,
+        profile_image: "https://pps.whatsapp.net/v/t61.24694-24/700486496_2006249146761512_427075127442207393_n.jpg?ccb=11-4&oh=01_Q5Aa5gGL_N96m-oUziJNNa7fK5DaqRtG1yJs-kjveQ2M0ybVGQ&oe=6AC73B9E&_nc_sid=5e03e0&_nc_cat=109",
+        verified: false
+    });
+    
     const [loading, setLoading] = useState(false);
     const [copied, setCopied] = useState(false);
     const [imgError, setImgError] = useState(false);
@@ -46,31 +58,26 @@ const WhatsAppChannelCard = ({
     const activeData = activeTab === 'channel' ? channelData : groupData;
 
     const fetchData = async (url, type) => {
-        setLoading(true);
         try {
             const res = await fetch(`/api/whatsapp-info?url=${encodeURIComponent(url)}`);
             if (res.ok) {
                 const data = await res.json();
                 if (data.success) {
                     if (type === 'channel') setChannelData(data);
-                    else setGroupData(data);
+                    else setGroupData(prev => ({ ...prev, ...data }));
                 }
             }
         } catch (e) {
-            console.error("Failed to fetch WhatsApp data:", e);
-        } finally {
-            setLoading(false);
+            console.error("FAILED TO FETCH WHATSAPP DATA:", e);
         }
     };
 
+    // AMBIL DATA SALURAN & SINKRONISASI LATAR BELAKANG SEJAK AWAL
     useEffect(() => {
         setImgError(false);
-        if (activeTab === 'channel' && !channelData) {
-            fetchData(channelUrl, 'channel');
-        } else if (activeTab === 'group' && !groupData) {
-            fetchData(groupUrl, 'group');
-        }
-    }, [activeTab]);
+        fetchData(channelUrl, 'channel');
+        fetchData(groupUrl, 'group');
+    }, [channelUrl, groupUrl]);
 
     const handleCopyLink = async () => {
         playClickHaptic(soundEnabled);
@@ -87,7 +94,7 @@ const WhatsAppChannelCard = ({
 
     return (
         <div className="wa-channel-card" id="wa-community-widget">
-            {/* Top Switcher Tabs (Symmetrical & Clean - No Live Text) */}
+            {/* SWITCHER TAB ATAS (SIMETRIS & BERSIH) */}
             <div className="wa-card-top-controls">
                 <div className="wa-tabs-switcher">
                     <button 
@@ -156,14 +163,14 @@ const WhatsAppChannelCard = ({
                             <div className="wa-meta-row">
                                 <span className="wa-meta-pill wa-followers-pill">
                                     <Users size={12} />
-                                    <strong>{activeData?.followers || (activeTab === 'channel' ? 'Saluran Resmi' : 'Grup Diskusi')}</strong>
+                                    <strong>{activeData?.followers || (activeTab === 'channel' ? 'Saluran Resmi' : 'Komunitas Aktif')}</strong>
                                 </span>
                             </div>
 
                             <p className="wa-description-text">
                                 {activeData?.description || (activeTab === 'channel' 
                                     ? 'Saluran informasi seputar teknologi, web development, dan update terbaru.' 
-                                    : 'Grup diskusi dan sharing seputar teknologi dan koding bersama.')}
+                                    : 'Grup WhatsApp resmi untuk diskusi, sharing, dan komunikasi bersama.')}
                             </p>
                         </div>
                     </div>
