@@ -25,7 +25,16 @@ export const settings = {
         cover: "/cover.jpg",
         audio: "/lagu.mp3"
     },
+    // DAFTAR TAUTAN MEDIA SOSIAL & KOMUNITAS UTAMA
     links: [
+        { 
+            id: 'sociabuzz', 
+            title: "SociaBuzz", 
+            subtitle: "adamnurs_",
+            url: "https://sociabuzz.com/adamnurs_/tribe",
+            icon: "sociabuzz",
+            tag: "Tribe"
+        },
         { 
             id: 1, 
             title: "WhatsApp Channel", 
@@ -82,6 +91,24 @@ export const settings = {
             icon: "fa-brands fa-facebook",
             tag: "Social"
         }
+    ],
+    // DAFTAR PROYEK DI BAWAH TAUTAN FACEBOOK
+    projects: [
+        {
+            id: 101,
+            title: "am premium",
+            subtitle: "alight motion premium — magic link activation",
+            url: "https://adamnurs.my.id",
+            icon: "fa-solid fa-globe",
+            tag: "Web App"
+        },
+        {
+            id: 102,
+            title: "dansdep",
+            subtitle: "deploy zip ke repositori github",
+            url: "https://dansdep.vercel.app",
+            icon: "fa-solid fa-globe",
+            tag: "Tool"
+        }
     ]
 };
-

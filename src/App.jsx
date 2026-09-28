@@ -10,6 +10,7 @@ import {
 } from 'lucide-react';
 import { settings } from './settings.js';
 import WhatsAppChannelCard from './components/WhatsAppChannelCard.jsx';
+import SociaBuzzIcon from './components/SociaBuzzIcon.jsx';
 import MusicPlayer from './MusicPlayer.jsx';
 import './style.css';
 
@@ -190,12 +191,56 @@ const App = () => {
                                 onClick={() => playClickHaptic(soundEnabled)}
                             >
                                 <div className="linktree-icon-box">
-                                    <i className={link.icon}></i>
+                                    {link.icon === 'sociabuzz' ? (
+                                        <SociaBuzzIcon size={19} />
+                                    ) : (
+                                        <i className={link.icon}></i>
+                                    )}
                                 </div>
 
                                 <div className="linktree-text-col">
                                     <span className="linktree-title">{link.title}</span>
                                     <span className="linktree-subtitle">{link.subtitle}</span>
+                                </div>
+
+                                <div className="linktree-arrow">
+                                    <ArrowUpRight size={17} />
+                                </div>
+                            </motion.a>
+                        ))}
+                    </motion.div>
+
+                    {/* PEMISAH BAGIAN: TULISAN PROJECT DI TENGAH-TENGAH */}
+                    <div className="section-divider-center">
+                        <span className="section-divider-line" />
+                        <span className="section-divider-label">PROJECT</span>
+                        <span className="section-divider-line" />
+                    </div>
+
+                    {/* DAFTAR TOMBOL PROYEK DENGAN LOGO INTERNET BULAT */}
+                    <motion.div 
+                        className="simple-links-list"
+                        variants={containerVariants}
+                        initial="hidden"
+                        animate="visible"
+                    >
+                        {settings.projects.map((proj) => (
+                            <motion.a 
+                                key={proj.id}
+                                href={proj.url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="linktree-btn"
+                                variants={linkVariants}
+                                onClick={() => playClickHaptic(soundEnabled)}
+                            >
+                                <div className="linktree-icon-box">
+                                    <i className={proj.icon}></i>
+                                </div>
+
+                                <div className="linktree-text-col">
+                                    <span className="linktree-title">{proj.title}</span>
+                                    <span className="linktree-subtitle">{proj.subtitle}</span>
                                 </div>
 
                                 <div className="linktree-arrow">
